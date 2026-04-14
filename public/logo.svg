@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 105" role="img" aria-label="Atman">
+  <title>Atman</title>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Decorative horizontal rule — mimics the baseline stroke of the original -->
+  <line x1="0" y1="72" x2="380" y2="72" stroke="#8C1C13" stroke-width="0.6" opacity="0.35"/>
+
+  <!-- Main wordmark -->
+  <text
+    x="8"
+    y="82"
+    font-family="'Cormorant Garamond', 'Georgia', serif"
+    font-style="italic"
+    font-weight="300"
+    font-size="86"
+    fill="#8C1C13"
+    letter-spacing="-1"
+  >Atman</text>
+</svg>

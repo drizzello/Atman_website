@@ -37,7 +37,7 @@ const galleryImages = [
   <header id="site-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
     <nav class="flex items-center justify-between px-6 md:px-10 py-5">
       <a href="#top" class="block">
-        <img id="nav-logo" src="/logo.jpg" alt="Atman"
+        <img id="nav-logo" src="/logo.svg" alt="Atman"
           class="h-7 w-auto brightness-0 invert opacity-80 hover:opacity-100 transition-all duration-500" />
       </a>
       <ul class="hidden md:flex items-center gap-10">
@@ -52,35 +52,70 @@ const galleryImages = [
           </li>
         ))}
       </ul>
-      <a
-        href="https://www.thefork.it/ristorante/ristorante-atman-r53481"
-        target="_blank" rel="noopener noreferrer"
-        class="label border border-crimson text-crimson px-5 py-2.5 hover:bg-crimson hover:text-ivory transition-all duration-300"
-      >
-        Prenota
-      </a>
+      <div class="flex items-center gap-4">
+        <a
+          href="https://www.thefork.it/ristorante/ristorante-atman-r53481"
+          target="_blank" rel="noopener noreferrer"
+          class="label border border-crimson text-crimson px-5 py-2.5 hover:bg-crimson hover:text-ivory transition-all duration-300"
+        >
+          Prenota
+        </a>
+        <button id="nav-toggle" class="md:hidden flex flex-col justify-center gap-[5px] p-1 text-ivory/70 relative" aria-label="Apri menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
     </nav>
   </header>
 
+  <!-- Mobile nav overlay -->
+  <div id="nav-overlay" class="fixed inset-0 z-40 bg-charcoal flex flex-col items-center justify-center gap-8 md:hidden">
+    <div class="absolute top-6 left-6">
+      <img src="/logo.svg" alt="Atman" class="h-6 w-auto brightness-0 invert opacity-30" />
+    </div>
+    {['Il Ristorante', 'Menù', 'Galleria', 'Recensioni', 'Contatti'].map((item) => (
+      <a
+        href={`#${item.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '-')}`}
+        class="font-serif font-extralight text-[clamp(28px,8vw,42px)] text-ivory/50 hover:text-ivory transition-colors duration-300"
+      >
+        {item}
+      </a>
+    ))}
+    <a
+      href="https://www.thefork.it/ristorante/ristorante-atman-r53481"
+      target="_blank" rel="noopener noreferrer"
+      class="mt-6 label border border-crimson text-crimson px-7 py-3 hover:bg-crimson hover:text-ivory transition-all duration-300"
+    >
+      Prenota un tavolo
+    </a>
+  </div>
+
   <!-- ───── HERO ───── -->
   <section id="top" class="relative h-screen overflow-hidden flex flex-col items-center justify-end pb-24 md:pb-32">
-    <div id="hero-bg" class="absolute inset-0 scale-110 will-change-transform">
-      <img src="/assets/villa.jpg" alt="Villa Rospigliosi" class="w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-charcoal/10"></div>
+    <div id="hero-bg" class="absolute inset-0 overflow-hidden will-change-transform" style="top:-8%; bottom:-8%;">
+      <img src="/assets/villa-interni-hd.jpg" alt="Villa Rospigliosi — interno barocco"
+        class="ken-burns w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/15"></div>
     </div>
 
     <div class="relative z-10 text-center flex flex-col items-center gap-6 px-6">
-      <h1 class="font-serif font-extralight text-[clamp(72px,15vw,180px)] leading-none tracking-[0.12em] text-ivory">
+      <h1 data-split class="font-serif font-extralight text-[clamp(72px,15vw,180px)] leading-none tracking-[0.12em] text-ivory">
         ATMAN
       </h1>
-      <div class="w-16 h-px bg-crimson"></div>
+      <div class="w-16 h-px bg-crimson line-draw"></div>
       <p class="label-light tracking-ultra">
         Cucina Garibaldina &nbsp;·&nbsp; Villa Rospigliosi &nbsp;·&nbsp; Vinci
       </p>
+      <div class="flex items-center gap-3 mt-2">
+        <span class="text-crimson/60 text-[10px]">✦</span>
+        <span class="text-[9px] tracking-ultra uppercase font-sans font-light text-ivory/30">Una Stella Michelin</span>
+        <span class="text-crimson/60 text-[10px]">✦</span>
+      </div>
       <a
         href="https://www.thefork.it/ristorante/ristorante-atman-r53481"
         target="_blank" rel="noopener noreferrer"
-        class="mt-4 group inline-flex items-center gap-3 border border-ivory/30 text-ivory/80 text-[10px] tracking-ultra uppercase px-8 py-3.5 hover:border-crimson hover:text-crimson transition-all duration-500"
+        class="magnetic mt-4 group inline-flex items-center gap-3 border border-ivory/30 text-ivory/80 text-[10px] tracking-ultra uppercase px-8 py-3.5 hover:border-crimson hover:text-crimson transition-all duration-500"
       >
         Prenota un tavolo
         <span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -95,11 +130,13 @@ const galleryImages = [
   <!-- ───── CHEF / IDENTITY ───── -->
   <section id="il-ristorante" class="grid md:grid-cols-2 min-h-screen">
     <div class="relative overflow-hidden min-h-[60vw] md:min-h-0">
-      <img
-        src="/assets/chef.jpg"
-        alt="Lo chef"
-        class="absolute inset-0 w-full h-full object-cover object-top grayscale"
-      />
+      <div data-wipe class="absolute inset-0">
+        <img
+          src="/assets/chef.jpg"
+          alt="Lo chef"
+          class="w-full h-full object-cover grayscale" style="object-position: center 25%;"
+        />
+      </div>
       <div class="absolute inset-0 bg-crimson/0 hover:bg-crimson/10 transition-colors duration-700"></div>
       <span class="absolute top-8 left-8 font-serif text-[120px] leading-none font-extralight text-ivory/5 select-none pointer-events-none">
         01
@@ -113,7 +150,7 @@ const galleryImages = [
         come<br/>
         <em class="text-crimson not-italic">linguaggio</em>
       </h2>
-      <div class="w-8 h-px bg-crimson" data-reveal data-delay="2"></div>
+      <div class="w-8 h-px bg-crimson line-draw" data-reveal data-delay="2"></div>
       <p class="font-serif font-light text-lg leading-relaxed text-charcoal/60" data-reveal data-delay="2">
         Marco Cassai apre Atman nel 2010 dentro Villa Rospigliosi — una villa barocca del 1669 sulle colline di Vinci. Due anni dopo, la stella Michelin. Non per caso.
       </p>
@@ -126,25 +163,35 @@ const galleryImages = [
     </div>
   </section>
 
-  <!-- ───── VILLA full bleed ───── -->
-  <section class="relative h-[70vh] md:h-screen overflow-hidden flex items-center justify-center">
-    <div id="villa-bg" class="absolute inset-0 scale-110 will-change-transform">
-      <img src="/assets/villa-interni.jpg" alt="Interno Villa Rospigliosi" class="w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-charcoal/75"></div>
+  <!-- ───── VILLA split ───── -->
+  <section class="grid md:grid-cols-[3fr_2fr] min-h-[80vh]">
+    <!-- Photo: villa esterna, con anno watermark -->
+    <div data-wipe class="relative overflow-hidden min-h-[55vw] md:min-h-0">
+      <div id="villa-bg" class="absolute inset-0 will-change-transform" style="top:-8%;bottom:-8%;">
+        <img src="/assets/villa.jpg" alt="Villa Rospigliosi — esterno"
+          class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-charcoal/20"></div>
+      </div>
+      <span id="counter-1669" class="absolute bottom-6 left-8 font-serif font-extralight text-ivory/10 select-none leading-none pointer-events-none"
+        style="font-size: clamp(80px,12vw,160px);">1669</span>
     </div>
-    <div class="relative z-10 text-center flex flex-col items-center gap-6 px-6 max-w-2xl" data-reveal>
-      <span class="label-light">La Sede</span>
-      <h2 class="font-serif font-extralight text-4xl md:text-6xl text-ivory leading-tight">
-        Un interno barocco.<br/>
-        <em class="text-ivory/60 not-italic">Una cucina contemporanea.</em>
+
+    <!-- Text: avorio -->
+    <div class="bg-ivory flex flex-col justify-center px-10 md:px-14 py-20 gap-8">
+      <span class="label" data-reveal>La Sede</span>
+      <h2 class="font-serif font-extralight text-charcoal leading-tight" data-reveal data-delay="1"
+        style="font-size: clamp(32px,3vw,48px);">
+        Una villa barocca.<br/>
+        <em class="not-italic text-charcoal/35">Una cucina<br/>d'avanguardia.</em>
       </h2>
-      <p class="font-serif italic text-ivory/40 text-base md:text-lg leading-relaxed">
-        Villa Rospigliosi, commissionata da Papa Clemente IX nel 1669, Vinci (PT)
+      <div class="w-8 h-px bg-crimson line-draw" data-reveal data-delay="2"></div>
+      <p class="font-serif font-light text-charcoal/60 text-base leading-relaxed" data-reveal data-delay="2">
+        Villa Rospigliosi fu commissionata da Papa Clemente IX nel 1669, sulle colline di Vinci. Affreschi barocchi, arte contemporanea — e una cucina che guarda il futuro.
+      </p>
+      <p class="font-serif font-light text-charcoal/60 text-base leading-relaxed" data-reveal data-delay="3">
+        I tavoli sono posizionati per osservare la cucina. Il confine tra sala e laboratorio non esiste.
       </p>
     </div>
-    <span class="absolute bottom-6 right-8 font-serif text-[80px] leading-none font-extralight text-ivory/5 select-none pointer-events-none">
-      02
-    </span>
   </section>
 
   <!-- ───── MENU ───── -->
@@ -175,20 +222,13 @@ const galleryImages = [
           data-reveal data-delay={String(Math.min(i % 3 + 1, 4))}
         >
           <span class="font-serif text-crimson/40 text-sm font-light group-hover:text-crimson transition-colors duration-300 pt-1">{c.n}</span>
-          <p class="font-serif font-light text-ivory text-base md:text-lg leading-snug">{c.name}</p>
+          <div>
+            <p class="font-serif font-light text-ivory text-base md:text-lg leading-snug">{c.name}</p>
+            {c.pairing && <p class="md:hidden font-serif italic text-ivory/25 text-xs mt-2 leading-snug">{c.pairing}</p>}
+          </div>
           <p class="hidden md:block font-serif italic text-ivory/30 text-sm text-right col-start-3 max-w-[240px] leading-snug pt-1 group-hover:text-ivory/50 transition-colors">{c.pairing}</p>
         </div>
       ))}
-
-      <div class="md:hidden mt-2">
-        {courses.map((c) => (
-          c.pairing && (
-            <div class="border-t border-ivory/5 py-3 pl-14">
-              <p class="font-serif italic text-ivory/25 text-xs leading-snug">{c.pairing}</p>
-            </div>
-          )
-        ))}
-      </div>
 
       <div class="border-t border-ivory/5 py-5">
         <span class="font-serif italic text-ivory/20 text-sm">— Piccola pasticceria</span>
@@ -199,6 +239,25 @@ const galleryImages = [
         Informate lo staff di eventuali allergie o intolleranze.
       </p>
     </div>
+  </section>
+
+  <!-- ───── INTERSTITIAL POETICA ───── -->
+  <section class="relative bg-charcoal overflow-hidden py-36 md:py-56">
+    <div class="max-w-6xl mx-auto px-6 md:px-16">
+      <p class="font-serif font-light italic leading-[1.08]"
+        style="font-size: clamp(36px, 7vw, 90px);"
+        data-reveal>
+        <span class="text-ivory/20">"Voglio sapere</span><br/>
+        <span class="text-ivory/45">perché sono</span><br/>
+        <em class="not-italic text-ivory">così lenta"</em>
+      </p>
+      <div class="flex items-center gap-4 mt-10" data-reveal data-delay="2">
+        <div class="w-5 h-px bg-crimson line-draw"></div>
+        <span class="label">Portata 03 · Menù CaHssai</span>
+      </div>
+    </div>
+    <span class="absolute right-4 bottom-0 font-serif font-extralight text-ivory/[0.025] select-none pointer-events-none leading-none"
+      style="font-size: clamp(140px, 24vw, 320px);">✦</span>
   </section>
 
   <!-- ───── GALLERY ───── -->
@@ -277,7 +336,7 @@ const galleryImages = [
   <section id="contatti" class="grid md:grid-cols-2 min-h-[60vh]">
     <div class="relative min-h-[50vw] md:min-h-0 bg-charcoal-mid overflow-hidden">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2872.054!2d10.9287!3d43.7905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132a6b7d3e4f0001%3A0x1!2sVia+IV+Novembre+20%2C+Vinci+PT!5e0!3m2!1sit!2sit"
+        src="https://maps.google.com/maps?q=Ristorante+Atman+Villa+Rospigliosi,+Via+IV+Novembre+20,+Vinci+PT&output=embed&hl=it&z=16"
         width="100%" height="100%"
         style="border:0; min-height:400px;"
         allowfullscreen loading="lazy"
@@ -325,13 +384,13 @@ const galleryImages = [
   <footer class="bg-charcoal border-t border-ivory/5 py-16 px-6 md:px-16">
     <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-end justify-between gap-10">
       <div class="flex flex-col items-center md:items-start gap-3">
-        <img src="/logo.jpg" alt="Atman" class="h-8 w-auto brightness-0 invert opacity-60" />
+        <img src="/logo.svg" alt="Atman" class="h-8 w-auto brightness-0 invert opacity-60" />
         <p class="label-light">© 2025 Ristorante Atman · Villa Rospigliosi · Vinci</p>
       </div>
       <a
         href="https://www.thefork.it/ristorante/ristorante-atman-r53481"
         target="_blank" rel="noopener noreferrer"
-        class="group inline-flex items-center gap-3 border border-crimson text-crimson label px-8 py-3.5 hover:bg-crimson hover:text-ivory transition-all duration-400"
+        class="magnetic group inline-flex items-center gap-3 border border-crimson text-crimson label px-8 py-3.5 hover:bg-crimson hover:text-ivory transition-all duration-400"
       >
         Prenota la tua esperienza
         <span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -340,74 +399,134 @@ const galleryImages = [
   </footer>
 
   <script>
-    // Custom cursor
+    // ── Cursor con lerp (movimento fluido)
     const cursor = document.getElementById('cursor');
     if (cursor) {
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-      });
+      let cx = 0, cy = 0, tx = 0, ty = 0;
+      document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+      (function lerp() {
+        cx += (tx - cx) * 0.12;
+        cy += (ty - cy) * 0.12;
+        cursor.style.left = cx + 'px';
+        cursor.style.top  = cy + 'px';
+        requestAnimationFrame(lerp);
+      })();
       document.querySelectorAll('a, button').forEach((el) => {
         el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
       });
     }
 
-    // Scroll reveal
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll('[data-reveal]').forEach((el) => revealObserver.observe(el));
+    // ── Split text: [data-split] → span.char per lettera
+    document.querySelectorAll('[data-split]').forEach((el) => {
+      const text = el.textContent ?? '';
+      el.innerHTML = text.split('').map((ch, i) =>
+        `<span class="char" style="transition-delay:${i * 0.06}s">${ch === ' ' ? '&nbsp;' : ch}</span>`
+      ).join('');
+      setTimeout(() => el.querySelectorAll('.char').forEach(c => c.classList.add('visible')), 300);
+    });
 
-    // Nav: ivory bg when past hero
-    const nav = document.getElementById('site-nav');
-    const navLogo = document.getElementById('nav-logo');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const heroEl = document.getElementById('top');
+    // ── Observer per reveal / line-draw / counter (threshold 0.12)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        if (el.hasAttribute('data-reveal'))     el.classList.add('revealed');
+        if (el.classList.contains('line-draw')) el.classList.add('visible');
+        if (el.id === 'counter-1669') {
+          const from = 1600, to = 1669, dur = 1400, t0 = performance.now();
+          (function tick(now: number) {
+            const p = Math.min((now - t0) / dur, 1);
+            el.textContent = String(Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(tick);
+          })(performance.now());
+        }
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal],.line-draw,#counter-1669').forEach(el => io.observe(el));
+
+    // ── Observer separato per data-wipe: threshold 0 (clip-path inganna l'altro observer)
+    const wipeIO = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        wipeIO.unobserve(entry.target);
+      });
+    }, { threshold: 0 });
+    document.querySelectorAll('[data-wipe]').forEach(el => wipeIO.observe(el));
+
+    // ── Magnetic buttons
+    document.querySelectorAll<HTMLElement>('.magnetic').forEach((btn) => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - 0.5) * 16;
+        const y = ((e.clientY - r.top)  / r.height - 0.5) * 10;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+
+    // ── Nav: switch a sfondo avorio dopo l'hero
+    const nav      = document.getElementById('site-nav');
+    const navLogo  = document.getElementById('nav-logo');
+    const navLinks = document.querySelectorAll<HTMLElement>('.nav-link');
+    const heroEl   = document.getElementById('top');
 
     function updateNav() {
       const heroH = heroEl?.offsetHeight ?? window.innerHeight;
-      const past = window.scrollY > heroH - 80;
+      const past  = window.scrollY > heroH - 80;
       if (nav) {
-        nav.style.background = past ? 'rgba(245,240,232,0.92)' : 'transparent';
+        nav.style.background     = past ? 'rgba(245,240,232,0.92)' : 'transparent';
         nav.style.backdropFilter = past ? 'blur(12px)' : 'none';
-        nav.style.borderBottom = past ? '1px solid rgba(26,26,26,0.06)' : 'none';
+        nav.style.borderBottom   = past ? '1px solid rgba(26,26,26,0.06)' : 'none';
       }
-      if (navLogo) {
-        navLogo.style.filter = past ? 'none' : 'brightness(0) invert(1)';
-      }
-      navLinks.forEach((link) => {
-        (link as HTMLElement).style.color = past ? 'rgba(26,26,26,0.45)' : 'rgba(245,240,232,0.45)';
-      });
+      if (navLogo) navLogo.style.filter = past ? 'none' : 'brightness(0) invert(1)';
+      navLinks.forEach(l => l.style.color = past ? 'rgba(26,26,26,0.45)' : 'rgba(245,240,232,0.45)');
+      const toggleEl = document.getElementById('nav-toggle') as HTMLElement | null;
+      if (toggleEl) toggleEl.style.color = past ? 'rgba(26,26,26,0.5)' : 'rgba(245,240,232,0.7)';
     }
     updateNav();
     window.addEventListener('scroll', updateNav, { passive: true });
 
-    // Parallax
-    const heroBg = document.getElementById('hero-bg');
+    // ── Mobile nav toggle
+    const navToggle  = document.getElementById('nav-toggle');
+    const navOverlay = document.getElementById('nav-overlay');
+
+    function closeMenu() {
+      navOverlay?.classList.remove('open');
+      navToggle?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    navToggle?.addEventListener('click', () => {
+      const isOpen = navOverlay?.classList.contains('open');
+      if (isOpen) {
+        closeMenu();
+      } else {
+        navOverlay?.classList.add('open');
+        navToggle?.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+    navOverlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // ── Parallax (translateY, nessuno scale)
+    const heroBg  = document.getElementById('hero-bg');
     const villaBg = document.getElementById('villa-bg');
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-          if (heroBg) heroBg.style.transform = `scale(1.1) translateY(${y * 0.25}px)`;
+          if (heroBg) heroBg.style.transform = `translateY(${y * 0.22}px)`;
           if (villaBg) {
             const rect = villaBg.parentElement?.getBoundingClientRect();
-            if (rect) villaBg.style.transform = `scale(1.1) translateY(${-rect.top * 0.2}px)`;
+            if (rect) villaBg.style.transform = `translateY(${-rect.top * 0.18}px)`;
           }
           ticking = false;
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
   </script>
 </Layout>
